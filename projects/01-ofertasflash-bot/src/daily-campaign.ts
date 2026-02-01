@@ -38,11 +38,11 @@ const MONTHLY_THEMES: CampaignTheme[] = [
     subtitle: 'Las mejores barbacoas para este verano',
     searchTerms: ['barbacoa weber', 'weber genesis', 'weber spirit'],
     products: [
-      { name: 'Weber Spirit II E-310 Barbacoa de Gas', asin: 'B078XX5MFJ', price: 549, originalPrice: 699, image: 'https://m.media-amazon.com/images/I/71xT8YJML-L._AC_SL1500_.jpg', highlight: '🏆 Más vendida' },
-      { name: 'Weber Master-Touch GBS E-5750 Carbón', asin: 'B07N2HSL5T', price: 299, originalPrice: 369, image: 'https://m.media-amazon.com/images/I/71j9l4HvUfL._AC_SL1500_.jpg' },
-      { name: 'Weber Compact Kettle 47cm Carbón', asin: 'B00M0GXM2K', price: 99, image: 'https://m.media-amazon.com/images/I/71Mk8FbFVhL._AC_SL1500_.jpg', highlight: '💰 Mejor precio' },
-      { name: 'Weber Q1200 Barbacoa Portátil Gas', asin: 'B00FGEHG90', price: 269, originalPrice: 299, image: 'https://m.media-amazon.com/images/I/71Q9rMYBURL._AC_SL1500_.jpg' },
-      { name: 'Weber Smokey Mountain Cooker 47cm', asin: 'B001I8ZTJA', price: 399, image: 'https://m.media-amazon.com/images/I/61BJ0Gmd3oL._AC_SL1024_.jpg', highlight: '🍖 Para ahumados' },
+      { name: 'Weber Spirit E-310 Original Barbacoa Gas', asin: 'B01HHIG326', price: 549, originalPrice: 699, image: 'https://m.media-amazon.com/images/I/71sWn6u9sBL._AC_SL1500_.jpg', highlight: '🏆 Más vendida' },
+      { name: 'Weber Master-Touch GBS 57cm Carbón', asin: 'B00WWRB5N2', price: 299, originalPrice: 369, image: 'https://m.media-amazon.com/images/I/81vKOQ8xp9L._AC_SL1500_.jpg' },
+      { name: 'Weber Compact Kettle 47cm Carbón Negro', asin: 'B00H1PT7J8', price: 99, image: 'https://m.media-amazon.com/images/I/71+4HBdPiVL._AC_SL1500_.jpg', highlight: '💰 Mejor precio' },
+      { name: 'Weber Q1000 Barbacoa Gas Portátil', asin: 'B00FKB8NX0', price: 239, originalPrice: 279, image: 'https://m.media-amazon.com/images/I/71SxPV-7eQL._AC_SL1500_.jpg' },
+      { name: 'Weber Smokey Joe Premium 37cm', asin: 'B00H1PT7HU', price: 79, image: 'https://m.media-amazon.com/images/I/71Wm1G4NJNL._AC_SL1500_.jpg', highlight: '🎒 Portátil' },
     ]
   },
   // DÍA 2 - Smart TV Samsung
@@ -310,7 +310,7 @@ const MONTHLY_THEMES: CampaignTheme[] = [
     products: [
       { name: 'Nintendo Switch OLED Blanca', asin: 'B098TVMWXL', price: 329, originalPrice: 349, image: 'https://m.media-amazon.com/images/I/61nqNujSF1L._SL1500_.jpg', highlight: '🏆 Pantalla OLED' },
       { name: 'Nintendo Switch Lite Turquesa', asin: 'B07V4GC9V4', price: 189, originalPrice: 219, image: 'https://m.media-amazon.com/images/I/71mZsH0MtrL._SL1500_.jpg', highlight: '💰 Más económica' },
-      { name: 'Pro Controller Nintendo Switch', asin: 'B01N4ND0F7', price: 54.99, originalPrice: 69.99, image: 'https://m.media-amazon.com/images/I/51r+9p2HurL._SL1200_.jpg' },
+      { name: 'Pro Controller Nintendo Switch', asin: 'B07GKKJPJK', price: 54.99, originalPrice: 69.99, image: 'https://m.media-amazon.com/images/I/71YOGkTJJcL._SL1500_.jpg' },
       { name: 'The Legend of Zelda: TotK', asin: 'B09WJR1QVG', price: 54.99, originalPrice: 69.99, image: 'https://m.media-amazon.com/images/I/81hEi0T-UfL._SL1500_.jpg', highlight: '🎮 Imprescindible' },
       { name: 'Mario Kart 8 Deluxe', asin: 'B01N1O5WCH', price: 44.99, originalPrice: 59.99, image: 'https://m.media-amazon.com/images/I/81lsBPgAPpL._SL1500_.jpg' },
     ]

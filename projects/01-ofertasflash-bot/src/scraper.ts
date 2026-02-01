@@ -353,9 +353,9 @@ function generateSampleDeals(config: BotConfig): Deal[] {
       title: '🕹️ Nintendo Switch Mando Pro Controller',
       originalPrice: 69.99,
       currentPrice: 54.99,
-      asin: 'B01N4ND0F7',
+      asin: 'B07GKKJPJK',
       category: 'gaming',
-      image: 'https://m.media-amazon.com/images/I/51r+9p2HurL._SL1200_.jpg'
+      image: 'https://m.media-amazon.com/images/I/71YOGkTJJcL._SL1500_.jpg'
     },
     {
       title: '🖥️ BenQ MOBIUZ EX2510S Monitor Gaming 24.5" 165Hz',
