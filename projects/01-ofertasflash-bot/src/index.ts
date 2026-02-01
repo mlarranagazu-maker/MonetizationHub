@@ -8,6 +8,7 @@ import { sendBatchToTelegram, initBot } from './telegram.js';
 import { Deal, BotConfig, RunStats } from './types.js';
 import { logger } from './utils/logger.js';
 import { generateDefaultMessage } from './utils/messages.js';
+import { isTwitterConfigured, postDealToTwitter, formatTweet } from './twitter.js';
 
 // Cargar variables de entorno
 config();
@@ -126,7 +127,33 @@ async function main(): Promise<RunStats> {
       });
     }
 
-    // 4. RESUMEN
+    // 4. CROSS-POST A TWITTER (si está configurado)
+    if (isTwitterConfigured()) {
+      logger.info('\n🐦 Fase 4: Cross-posting a Twitter/X...');
+      
+      // Solo las mejores ofertas (top 3 por descuento)
+      const topDeals = [...enhancedDeals]
+        .sort((a, b) => b.discount - a.discount)
+        .slice(0, 3);
+      
+      let tweetsSent = 0;
+      for (const deal of topDeals) {
+        const result = await postDealToTwitter(deal);
+        if (result.success) {
+          tweetsSent++;
+          logger.success(`  ✓ Tweet: ${deal.title.substring(0, 40)}...`);
+        } else {
+          logger.error(`  ✗ Error tweet: ${result.error}`);
+        }
+        // Esperar entre tweets para evitar rate limit
+        await new Promise(r => setTimeout(r, 2000));
+      }
+      logger.info(`🐦 Tweets enviados: ${tweetsSent}/${topDeals.length}`);
+    } else {
+      logger.info('\n⏭️ Twitter no configurado, saltando cross-posting');
+    }
+
+    // 5. RESUMEN
     stats.endTime = new Date();
     const duration = (stats.endTime.getTime() - stats.startTime.getTime()) / 1000;
     
