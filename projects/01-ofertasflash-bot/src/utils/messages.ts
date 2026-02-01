@@ -1,29 +1,98 @@
-// Mensajes por defecto
+// Mensajes por defecto - Optimizados para viralidad
 
 import { Deal } from '../types.js';
 
 /**
- * Genera mensaje por defecto si falla la IA
+ * Genera mensaje viral y compartible
  */
 export function generateDefaultMessage(deal: Deal): string {
-  const emoji = deal.discount >= 50 ? '🔥🔥' : deal.discount >= 30 ? '🔥' : '💰';
   const ahorro = (deal.originalPrice - deal.currentPrice).toFixed(2);
   
-  return `${emoji} ¡OFERTA FLASH!
+  // Headers más impactantes según descuento
+  const header = getViralHeader(deal.discount);
+  
+  // Urgencia dinámica
+  const urgency = getUrgencyMessage(deal.discount, deal.timeLeft);
+  
+  // Social proof y CTA
+  const cta = getCallToAction(deal.discount);
+  
+  return `${header}
 
-${deal.title.substring(0, 100)}${deal.title.length > 100 ? '...' : ''}
+📦 ${deal.title.substring(0, 80)}${deal.title.length > 80 ? '...' : ''}
 
-💰 Antes: ${deal.originalPrice.toFixed(2)}€
-✨ Ahora: ${deal.currentPrice.toFixed(2)}€
-📉 Descuento: -${deal.discount}%
-💎 Ahorras: ${ahorro}€
-${deal.timeLeft ? `⏰ ${deal.timeLeft}` : '⚡ Tiempo limitado'}
+┌─────────────────────────
+│ ❌ Antes: ${deal.originalPrice.toFixed(2)}€
+│ ✅ AHORA: ${deal.currentPrice.toFixed(2)}€
+│ 💰 Te ahorras: ${ahorro}€
+└─────────────────────────
 
-🏪 ${deal.providerName}
+${urgency}
 
-👉 ${deal.affiliateLink}
+🛒 ${deal.providerName}
+🔗 COMPRAR: ${deal.affiliateLink}
 
-#Oferta #Chollo #${capitalize(deal.category)}`;
+${cta}
+
+━━━━━━━━━━━━━━━━━━━
+📲 @OfertasFlashES
+#Chollo #Oferta #${capitalize(deal.category)} #Ahorro${deal.discount}`;
+}
+
+/**
+ * Headers virales según nivel de descuento
+ */
+function getViralHeader(discount: number): string {
+  if (discount >= 70) {
+    return `🚨🚨🚨 ¡¡PRECIO MÍNIMO HISTÓRICO!! 🚨🚨🚨
+⚡ -${discount}% ⚡ CORRED QUE VUELA`;
+  }
+  if (discount >= 50) {
+    return `🔥🔥 ¡¡CHOLLAZO BRUTAL!! 🔥🔥
+💥 -${discount}% 💥 ¡A MITAD DE PRECIO!`;
+  }
+  if (discount >= 40) {
+    return `🔥 ¡OFERTÓN INCREÍBLE! 🔥
+📉 -${discount}% de descuento`;
+  }
+  if (discount >= 30) {
+    return `💰 ¡BUEN CHOLLO! 💰
+📉 -${discount}% de descuento`;
+  }
+  return `✨ OFERTA DEL DÍA ✨
+📉 -${discount}% de descuento`;
+}
+
+/**
+ * Mensajes de urgencia
+ */
+function getUrgencyMessage(discount: number, timeLeft?: string): string {
+  if (timeLeft) {
+    return `⏰ QUEDA: ${timeLeft}
+⚠️ Unidades muy limitadas`;
+  }
+  if (discount >= 50) {
+    return `⚡ ÚLTIMAS UNIDADES
+⏰ Puede agotarse en minutos`;
+  }
+  return `⏰ Oferta por tiempo limitado
+💨 ¡No dejes que se agote!`;
+}
+
+/**
+ * Call to action viral
+ */
+function getCallToAction(discount: number): string {
+  if (discount >= 50) {
+    return `👆 CORRE antes de que vuele
+💬 ¿Lo pillas? Cuéntanos 👇`;
+  }
+  if (discount >= 30) {
+    return `👆 Click para comprar
+🔔 Activa notificaciones = Más chollos`;
+  }
+  return `👆 Ver oferta completa
+📢 Comparte si te mola`;
 }
 
 /**

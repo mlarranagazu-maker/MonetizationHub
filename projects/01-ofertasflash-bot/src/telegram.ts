@@ -54,22 +54,55 @@ function isValidImageUrl(url: string): boolean {
 }
 
 /**
- * Formatea un mensaje por defecto para una oferta
+ * Formatea un mensaje viral para una oferta
  */
 function formatDealMessage(deal: Deal): string {
-  const emoji = deal.discount >= 50 ? '🔥🔥' : deal.discount >= 30 ? '🔥' : '💰';
   const ahorro = (deal.originalPrice - deal.currentPrice).toFixed(2);
   
-  return `${emoji} <b>¡OFERTA!</b> ${escapeHtml(deal.title.substring(0, 100))}
+  // Header impactante según descuento
+  let header: string;
+  let urgency: string;
+  
+  if (deal.discount >= 70) {
+    header = `🚨🚨🚨 <b>¡¡PRECIO MÍNIMO HISTÓRICO!!</b> 🚨🚨🚨
+⚡ <b>-${deal.discount}%</b> ⚡ CORRED QUE VUELA`;
+    urgency = `⚡ <b>ÚLTIMAS UNIDADES</b> - Puede agotarse YA`;
+  } else if (deal.discount >= 50) {
+    header = `🔥🔥 <b>¡¡CHOLLAZO BRUTAL!!</b> 🔥🔥
+💥 <b>-${deal.discount}%</b> 💥 ¡A MITAD DE PRECIO!`;
+    urgency = `⏰ Unidades MUY limitadas`;
+  } else if (deal.discount >= 40) {
+    header = `🔥 <b>¡OFERTÓN!</b> 🔥 <b>-${deal.discount}%</b>`;
+    urgency = `⏰ Oferta temporal`;
+  } else if (deal.discount >= 30) {
+    header = `💰 <b>¡BUEN CHOLLO!</b> 💰 <b>-${deal.discount}%</b>`;
+    urgency = `⏰ Disponible por tiempo limitado`;
+  } else {
+    header = `✨ <b>OFERTA</b> ✨ <b>-${deal.discount}%</b>`;
+    urgency = deal.timeLeft ? `⏰ ${deal.timeLeft}` : '';
+  }
+  
+  return `${header}
 
-💰 <s>${deal.originalPrice.toFixed(2)}€</s> → <b>${deal.currentPrice.toFixed(2)}€</b>
-📉 <b>-${deal.discount}%</b> = Ahorras ${ahorro}€
-🏪 ${deal.providerName}
-${deal.timeLeft ? `⏰ ${deal.timeLeft}` : ''}
+📦 ${escapeHtml(deal.title.substring(0, 80))}
 
-👉 ${deal.affiliateLink}
+┌─────────────────────────
+│ ❌ Antes: <s>${deal.originalPrice.toFixed(2)}€</s>
+│ ✅ <b>AHORA: ${deal.currentPrice.toFixed(2)}€</b>
+│ 💰 Ahorras: <b>${ahorro}€</b>
+└─────────────────────────
 
-#Oferta #${deal.category.charAt(0).toUpperCase() + deal.category.slice(1)} #Ahorro`;
+${urgency}
+
+🛒 ${deal.providerName}
+🔗 <b>COMPRAR:</b> ${deal.affiliateLink}
+
+${deal.discount >= 50 ? '👆 CORRE antes de que vuele' : '👆 Click para ver'}
+${deal.discount >= 40 ? '🔔 Activa notificaciones = Más chollos' : '📢 Comparte si te mola'}
+
+━━━━━━━━━━━━━━━━━━━
+📲 <b>@OfertasFlashES</b>
+#Chollo #${deal.category.charAt(0).toUpperCase() + deal.category.slice(1)} #Ahorro${deal.discount}`;
 }
 
 /**

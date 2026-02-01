@@ -693,39 +693,70 @@ async function generateCampaignMessage(theme: CampaignTheme): Promise<string> {
     month: 'long' 
   });
 
-  // Header de la campaña
-  let message = `${theme.emoji}${theme.emoji}${theme.emoji} **${theme.title.toUpperCase()}** ${theme.emoji}${theme.emoji}${theme.emoji}\n\n`;
+  // Calcular ahorro total de la campaña
+  let totalAhorro = 0;
+  let maxDiscount = 0;
+  theme.products.forEach(p => {
+    if (p.originalPrice && p.originalPrice > p.price) {
+      totalAhorro += (p.originalPrice - p.price);
+      const discount = Math.round((1 - p.price / p.originalPrice) * 100);
+      if (discount > maxDiscount) maxDiscount = discount;
+    }
+  });
+
+  // Header VIRAL de la campaña
+  let message = `🚨🚨🚨 **ESPECIAL DEL DÍA** 🚨🚨🚨\n\n`;
+  message += `${theme.emoji}${theme.emoji} **${theme.title.toUpperCase()}** ${theme.emoji}${theme.emoji}\n\n`;
   message += `📅 *${dateStr}*\n`;
   message += `💫 ${theme.subtitle}\n\n`;
-  message += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+  
+  // Stats impactantes
+  message += `┌─────────────────────────\n`;
+  message += `│ 📦 **${theme.products.length} PRODUCTOS** seleccionados\n`;
+  if (maxDiscount > 0) {
+    message += `│ 🔥 Descuentos hasta **-${maxDiscount}%**\n`;
+  }
+  if (totalAhorro > 0) {
+    message += `│ 💰 Ahorro total posible: **${totalAhorro.toFixed(0)}€**\n`;
+  }
+  message += `└─────────────────────────\n\n`;
 
-  // Productos
+  // Productos con formato mejorado
+  let productNum = 1;
   for (const product of theme.products) {
     const affiliateLink = `https://www.amazon.es/dp/${product.asin}?tag=${amazonTag}`;
     
-    // Destacar si tiene highlight
+    // Número y highlight
+    message += `**${productNum}.** `;
     if (product.highlight) {
-      message += `${product.highlight}\n`;
+      message += `${product.highlight} `;
     }
+    message += `\n`;
 
-    message += `🔹 **${product.name}**\n`;
+    message += `📦 ${product.name}\n`;
     
-    // Mostrar precio con descuento si lo tiene
+    // Mostrar precio con descuento - más visual
     if (product.originalPrice && product.originalPrice > product.price) {
       const discount = Math.round((1 - product.price / product.originalPrice) * 100);
-      message += `   💰 ~~${product.originalPrice.toFixed(2)}€~~ → **${product.price.toFixed(2)}€** (-${discount}%)\n`;
+      const ahorro = (product.originalPrice - product.price).toFixed(2);
+      message += `❌ ~~${product.originalPrice.toFixed(2)}€~~ `;
+      message += `✅ **${product.price.toFixed(2)}€** `;
+      message += `🔥 **-${discount}%** (ahorras ${ahorro}€)\n`;
     } else {
-      message += `   💰 **${product.price.toFixed(2)}€**\n`;
+      message += `💰 **${product.price.toFixed(2)}€**\n`;
     }
     
-    message += `   🛒 [Ver en Amazon](${affiliateLink})\n\n`;
+    message += `🛒 **COMPRAR:** ${affiliateLink}\n\n`;
+    productNum++;
   }
 
-  // Footer
+  // Footer VIRAL
   message += `━━━━━━━━━━━━━━━━━━━━\n\n`;
-  message += `🔔 *¿Te gustan estos especiales diarios?*\n`;
-  message += `👉 Comparte el canal con amigos: @tu_canal\n\n`;
-  message += `⚠️ _Precios pueden variar. Como Afiliado de Amazon obtengo ingresos por compras adscritas._`;
+  message += `❓ **¿Cuál te pillas?** Cuéntanos 👇\n\n`;
+  message += `🔔 **ACTIVA NOTIFICACIONES** para no perderte ningún chollo\n`;
+  message += `📲 **COMPARTE** con quien lo necesite: @OfertasFlashES\n\n`;
+  message += `━━━━━━━━━━━━━━━━━━━━\n`;
+  message += `⚠️ _Precios pueden variar. Afiliado Amazon._`;
 
   return message;
 }
