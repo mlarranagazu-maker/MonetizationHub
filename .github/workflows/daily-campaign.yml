@@ -1,0 +1,48 @@
+name: 📢 Campaña Temática Diaria
+
+on:
+  # Ejecutar cada día a las 12:00 hora España (11:00 UTC en invierno, 10:00 UTC en verano)
+  schedule:
+    - cron: '0 11 * * *'
+  
+  # Permitir ejecución manual con tema personalizado
+  workflow_dispatch:
+    inputs:
+      theme_override:
+        description: 'Tema específico (opcional, ej: barbacoas_weber)'
+        required: false
+        default: ''
+
+jobs:
+  daily-campaign:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout código
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: projects/01-ofertasflash-bot/package-lock.json
+
+      - name: 📚 Instalar dependencias
+        working-directory: projects/01-ofertasflash-bot
+        run: npm ci
+
+      - name: 📢 Ejecutar Campaña Temática
+        working-directory: projects/01-ofertasflash-bot
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          AMAZON_ES_TAG: ${{ secrets.AMAZON_ES_TAG }}
+          CAMPAIGN_MODE: 'true'
+          THEME_OVERRIDE: ${{ github.event.inputs.theme_override }}
+        run: npx tsx src/daily-campaign.ts
+
+      - name: 📊 Resumen
+        if: always()
+        run: echo "✅ Campaña diaria ejecutada a las $(date)"

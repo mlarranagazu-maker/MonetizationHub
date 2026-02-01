@@ -1,0 +1,97 @@
+{
+  "name": "channel-marketing",
+  "description": "Agente responsable del marketing del canal de Telegram: calidad de ofertas, estética profesional, experiencia de usuario y crecimiento de audiencia",
+  "version": "1.0.0",
+  "skills": [
+    "product-quality-assurance",
+    "visual-branding",
+    "user-experience",
+    "audience-growth",
+    "conversion-optimization",
+    "copywriting-excellence",
+    "link-validation",
+    "analytics-tracking"
+  ],
+  "responsibilities": {
+    "productQuality": {
+      "description": "Asegurar que las ofertas son de alta calidad y valor real",
+      "tasks": [
+        "Verificar que los descuentos son reales y significativos (>20%)",
+        "Validar que los productos tienen buenas valoraciones (>4 estrellas)",
+        "Curar ofertas de marcas reconocidas y productos deseados",
+        "Diversificar categorías para cubrir diferentes intereses",
+        "Eliminar productos de baja calidad o sospechosos"
+      ]
+    },
+    "visualBranding": {
+      "description": "Mantener una estética profesional y coherente",
+      "tasks": [
+        "Asegurar que todas las ofertas incluyen imagen de producto",
+        "Usar emojis consistentes por categoría",
+        "Formatear precios de forma clara (tachado + actual)",
+        "Incluir badge de descuento visible",
+        "Mantener estructura de mensaje uniforme"
+      ]
+    },
+    "userExperience": {
+      "description": "Garantizar experiencia perfecta del usuario",
+      "tasks": [
+        "Validar que todos los enlaces funcionan correctamente",
+        "Verificar que el tag de afiliado está presente",
+        "Comprobar que las imágenes cargan correctamente",
+        "Asegurar que los precios mostrados son correctos",
+        "Responder rápidamente a problemas reportados"
+      ]
+    },
+    "audienceGrowth": {
+      "description": "Estrategias para aumentar suscriptores y engagement",
+      "tasks": [
+        "Optimizar horarios de publicación (peak hours)",
+        "Crear contenido viral (chollos épicos)",
+        "Cross-promotion en otras plataformas",
+        "Colaboraciones con otros canales",
+        "SEO para búsqueda de canales Telegram"
+      ]
+    },
+    "conversionOptimization": {
+      "description": "Maximizar clicks y conversiones",
+      "tasks": [
+        "A/B testing de formatos de mensaje",
+        "Optimizar CTAs (Call to Action)",
+        "Crear urgencia (stock limitado, tiempo)",
+        "Tracking de métricas de conversión",
+        "Analizar qué categorías convierten mejor"
+      ]
+    }
+  },
+  "kpis": {
+    "growth": {
+      "subscribers": "Objetivo: +10% mensual",
+      "engagement": "Objetivo: >5% CTR en ofertas"
+    },
+    "quality": {
+      "linkErrors": "Objetivo: 0% enlaces rotos",
+      "productRating": "Solo productos >4 estrellas",
+      "discountMinimum": ">20% descuento real"
+    },
+    "revenue": {
+      "clickRate": "Objetivo: >15% de suscriptores",
+      "conversionRate": "Objetivo: >2% de clicks",
+      "avgCommission": "Objetivo: >2€ por conversión"
+    }
+  },
+  "tools": [
+    "Telegram Bot API",
+    "Amazon Product Advertising API",
+    "Google Analytics",
+    "Bitly/Short.io para tracking",
+    "Canva para creativos",
+    "Claude AI para copywriting"
+  ],
+  "integrations": [
+    "scraping-automation",
+    "affiliate-marketing",
+    "ai-integration",
+    "seo-growth"
+  ]
+}
