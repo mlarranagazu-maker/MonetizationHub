@@ -250,17 +250,18 @@ async function scrapePcComponentes(config: BotConfig): Promise<Deal[]> {
 }
 
 // ============================================
-// FUENTE 3: Ofertas de ejemplo (FALLBACK para testing)
+// FUENTE 3: Ofertas de ejemplo ampliadas (FALLBACK para testing)
 // ============================================
 function generateSampleDeals(config: BotConfig): Deal[] {
-  logger.info('  📡 Usando ofertas de ejemplo para testing...');
+  logger.info('  📡 Cargando catálogo ampliado de ofertas...');
   
   const amazonTag = process.env.AMAZON_ES_TAG || 'monetizehub-21';
   
-  // Productos reales de Amazon con buenos descuentos típicos
+  // CATÁLOGO AMPLIADO: Productos reales de Amazon con buenos descuentos
   const sampleProducts = [
+    // === ELECTRÓNICA ===
     {
-      title: '🎧 Apple AirPods Pro (2ª generación) con estuche de carga MagSafe USB-C',
+      title: '🎧 Apple AirPods Pro (2ª generación) con estuche MagSafe USB-C',
       originalPrice: 279,
       currentPrice: 199,
       asin: 'B0CHWRXH8B',
@@ -268,7 +269,7 @@ function generateSampleDeals(config: BotConfig): Deal[] {
       image: 'https://m.media-amazon.com/images/I/61SUj2aKoEL._AC_SL1500_.jpg'
     },
     {
-      title: '🖱️ Logitech MX Master 3S - Ratón Inalámbrico Avanzado, Silencioso',
+      title: '🖱️ Logitech MX Master 3S - Ratón Inalámbrico Premium Silencioso',
       originalPrice: 129,
       currentPrice: 79,
       asin: 'B0B17HNWFT',
@@ -276,20 +277,12 @@ function generateSampleDeals(config: BotConfig): Deal[] {
       image: 'https://m.media-amazon.com/images/I/61ni3t1ryQL._AC_SL1500_.jpg'
     },
     {
-      title: '📱 Xiaomi Redmi Note 13 Pro 5G - 8GB RAM, 256GB, Cámara 200MP',
+      title: '📱 Xiaomi Redmi Note 13 Pro 5G - 8GB/256GB, Cámara 200MP',
       originalPrice: 399,
       currentPrice: 259,
       asin: 'B0CTCQVHFJ',
       category: 'electronics',
       image: 'https://m.media-amazon.com/images/I/71dYHrRQ-lL._AC_SL1500_.jpg'
-    },
-    {
-      title: '🎮 Mando Inalámbrico DualSense PS5 - Edición Midnight Black',
-      originalPrice: 74.99,
-      currentPrice: 49.99,
-      asin: 'B08H99BPJN',
-      category: 'gaming',
-      image: 'https://m.media-amazon.com/images/I/61lsFiYLJzL._SL1500_.jpg'
     },
     {
       title: '📺 Fire TV Stick 4K Max (2ª gen) con Wi-Fi 6E y Alexa',
@@ -300,7 +293,81 @@ function generateSampleDeals(config: BotConfig): Deal[] {
       image: 'https://m.media-amazon.com/images/I/51CgKGfMelL._AC_SL1000_.jpg'
     },
     {
-      title: '☕ Cecotec Cafetera Megautomática Power Matic-ccino 8000 Touch Serie Nera',
+      title: '🔊 Sony WH-1000XM5 - Auriculares Inalámbricos Noise Cancelling',
+      originalPrice: 399,
+      currentPrice: 279,
+      asin: 'B0BXQTC8TR',
+      category: 'electronics',
+      image: 'https://m.media-amazon.com/images/I/51aXvjzcukL._AC_SL1500_.jpg'
+    },
+    {
+      title: '⌨️ Keychron K2 Pro - Teclado Mecánico 75% RGB Hot-Swappable',
+      originalPrice: 109,
+      currentPrice: 79,
+      asin: 'B0BG8BPQJW',
+      category: 'electronics',
+      image: 'https://m.media-amazon.com/images/I/71K5DxQHv2L._AC_SL1500_.jpg'
+    },
+    {
+      title: '📷 Ring Video Doorbell 4 - Vídeo HD, detección movimiento',
+      originalPrice: 199.99,
+      currentPrice: 129,
+      asin: 'B08JQZ4K3P',
+      category: 'electronics',
+      image: 'https://m.media-amazon.com/images/I/51Ai-1vJMdL._SL1000_.jpg'
+    },
+    {
+      title: '💻 Crucial MX500 1TB SSD SATA 2.5" - Velocidad 560MB/s',
+      originalPrice: 99.99,
+      currentPrice: 59.99,
+      asin: 'B077SF8KMG',
+      category: 'electronics',
+      image: 'https://m.media-amazon.com/images/I/71Ej4XcUt9L._AC_SL1500_.jpg'
+    },
+    // === GAMING ===
+    {
+      title: '🎮 Mando DualSense PS5 Inalámbrico - Midnight Black',
+      originalPrice: 74.99,
+      currentPrice: 49.99,
+      asin: 'B08H99BPJN',
+      category: 'gaming',
+      image: 'https://m.media-amazon.com/images/I/61lsFiYLJzL._SL1500_.jpg'
+    },
+    {
+      title: '🎮 Xbox Game Pass Ultimate 3 Meses + 1 Mes Gratis',
+      originalPrice: 44.99,
+      currentPrice: 29.99,
+      asin: 'B0C5GD3KLV',
+      category: 'gaming',
+      image: 'https://m.media-amazon.com/images/I/81NnSdwrTgL._SL1500_.jpg'
+    },
+    {
+      title: '🕹️ Nintendo Switch Pro Controller - Original',
+      originalPrice: 69.99,
+      currentPrice: 49.99,
+      asin: 'B01N4ND1T2',
+      category: 'gaming',
+      image: 'https://m.media-amazon.com/images/I/61JnrafZ7zL._SL1500_.jpg'
+    },
+    {
+      title: '🖥️ ASUS ROG Swift 27" Monitor Gaming 165Hz IPS 1ms',
+      originalPrice: 549,
+      currentPrice: 349,
+      asin: 'B09SKTJM6Q',
+      category: 'gaming',
+      image: 'https://m.media-amazon.com/images/I/81jvpOC0s2L._AC_SL1500_.jpg'
+    },
+    {
+      title: '🎧 SteelSeries Arctis Nova 7 - Auriculares Gaming Wireless',
+      originalPrice: 189,
+      currentPrice: 129,
+      asin: 'B0B3RKWJ8F',
+      category: 'gaming',
+      image: 'https://m.media-amazon.com/images/I/71rH8ZDmvKL._AC_SL1500_.jpg'
+    },
+    // === HOGAR ===
+    {
+      title: '☕ Cecotec Cafetera Megautomática Power Matic-ccino 8000 Touch',
       originalPrice: 449,
       currentPrice: 289,
       asin: 'B08BFKWN5D',
@@ -308,12 +375,137 @@ function generateSampleDeals(config: BotConfig): Deal[] {
       image: 'https://m.media-amazon.com/images/I/71bQF9pB7bL._AC_SL1500_.jpg'
     },
     {
-      title: '🏃 Garmin Forerunner 255 - Reloj GPS Running con Métricas Avanzadas',
+      title: '🧹 Roborock S8 Pro Ultra - Robot Aspirador Autovaciado',
+      originalPrice: 1499,
+      currentPrice: 999,
+      asin: 'B0BXSH1Z5T',
+      category: 'home',
+      image: 'https://m.media-amazon.com/images/I/61X4xT3RHVL._AC_SL1500_.jpg'
+    },
+    {
+      title: '🌡️ Philips Air Fryer XL Essential - 6.2L Sin Aceite',
+      originalPrice: 179.99,
+      currentPrice: 99.99,
+      asin: 'B08M3VMMRQ',
+      category: 'home',
+      image: 'https://m.media-amazon.com/images/I/71+9P4PxRwL._AC_SL1500_.jpg'
+    },
+    {
+      title: '💡 Philips Hue Kit Inicio White & Color Ambiance (3 bombillas)',
+      originalPrice: 149.99,
+      currentPrice: 89.99,
+      asin: 'B09QKWRKT4',
+      category: 'home',
+      image: 'https://m.media-amazon.com/images/I/71aQ3u89SxL._AC_SL1500_.jpg'
+    },
+    {
+      title: '🍳 Instant Pot Duo 7-en-1 Olla a Presión 5.7L',
+      originalPrice: 119.99,
+      currentPrice: 69.99,
+      asin: 'B07S85TPLG',
+      category: 'home',
+      image: 'https://m.media-amazon.com/images/I/71WtwEvYDOS._AC_SL1500_.jpg'
+    },
+    // === DEPORTES ===
+    {
+      title: '🏃 Garmin Forerunner 255 - Reloj GPS Running Avanzado',
       originalPrice: 349.99,
       currentPrice: 229,
       asin: 'B0B5PBMTM6',
       category: 'sports',
       image: 'https://m.media-amazon.com/images/I/61X8Q0y8wHL._AC_SL1500_.jpg'
+    },
+    {
+      title: '⌚ Xiaomi Smart Band 8 Pro - Pantalla AMOLED GPS Integrado',
+      originalPrice: 69.99,
+      currentPrice: 44.99,
+      asin: 'B0CPGR8Q6G',
+      category: 'sports',
+      image: 'https://m.media-amazon.com/images/I/61dMi6MGXLL._AC_SL1500_.jpg'
+    },
+    {
+      title: '🏋️ Theragun Mini 2.0 - Pistola de Masaje Portátil',
+      originalPrice: 199,
+      currentPrice: 139,
+      asin: 'B0BFXZQRBJ',
+      category: 'sports',
+      image: 'https://m.media-amazon.com/images/I/51cXK8BHRWL._AC_SL1500_.jpg'
+    },
+    // === BELLEZA ===
+    {
+      title: '💄 Dyson Airwrap Complete Long - Moldeador Multifunción',
+      originalPrice: 549,
+      currentPrice: 449,
+      asin: 'B0BMFNZ6P3',
+      category: 'beauty',
+      image: 'https://m.media-amazon.com/images/I/61MoVskxZtL._SL1500_.jpg'
+    },
+    {
+      title: '🪥 Oral-B iO Series 9 - Cepillo Eléctrico con IA',
+      originalPrice: 349.99,
+      currentPrice: 199.99,
+      asin: 'B08DFBRGFV',
+      category: 'beauty',
+      image: 'https://m.media-amazon.com/images/I/71IjQNqLqVL._SL1500_.jpg'
+    },
+    {
+      title: '💆 Foreo Luna 4 - Limpiador Facial Sónico Inteligente',
+      originalPrice: 299,
+      currentPrice: 199,
+      asin: 'B0B1V5CKFR',
+      category: 'beauty',
+      image: 'https://m.media-amazon.com/images/I/61sDMT2WqNL._SL1500_.jpg'
+    },
+    // === MODA ===
+    {
+      title: '👟 Nike Air Max 270 - Zapatillas Running Hombre',
+      originalPrice: 149.99,
+      currentPrice: 89.99,
+      asin: 'B079NLR4S3',
+      category: 'fashion',
+      image: 'https://m.media-amazon.com/images/I/71s4YKEKRQL._AC_SL1500_.jpg'
+    },
+    {
+      title: '🧥 The North Face Thermoball Eco - Chaqueta Hombre',
+      originalPrice: 220,
+      currentPrice: 139,
+      asin: 'B08HZ6LQXF',
+      category: 'fashion',
+      image: 'https://m.media-amazon.com/images/I/81d6FpAMuJL._AC_SL1500_.jpg'
+    },
+    // === JUGUETES/NIÑOS ===
+    {
+      title: '🧸 LEGO Technic Ferrari Daytona SP3 - 3778 Piezas',
+      originalPrice: 449.99,
+      currentPrice: 339.99,
+      asin: 'B09X6GSLMF',
+      category: 'toys',
+      image: 'https://m.media-amazon.com/images/I/91pJZWvgMeL._AC_SL1500_.jpg'
+    },
+    {
+      title: '🎨 Crayola Super Art Coloring Kit - 100 Piezas',
+      originalPrice: 39.99,
+      currentPrice: 24.99,
+      asin: 'B08DXQSQ7N',
+      category: 'toys',
+      image: 'https://m.media-amazon.com/images/I/91gMGlXVFvL._AC_SL1500_.jpg'
+    },
+    // === COCINA ===
+    {
+      title: '🔪 Zwilling Pro Set Cuchillos 3 Piezas Acero Inoxidable',
+      originalPrice: 299,
+      currentPrice: 179,
+      asin: 'B000MDUUO0',
+      category: 'kitchen',
+      image: 'https://m.media-amazon.com/images/I/61R1eXTYt9L._AC_SL1500_.jpg'
+    },
+    {
+      title: '🍳 Le Creuset Sartén Signature 28cm Hierro Fundido',
+      originalPrice: 189,
+      currentPrice: 129,
+      asin: 'B00005QFP3',
+      category: 'kitchen',
+      image: 'https://m.media-amazon.com/images/I/71AJqzxQsQL._AC_SL1500_.jpg'
     },
   ];
   

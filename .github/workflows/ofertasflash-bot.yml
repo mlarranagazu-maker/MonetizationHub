@@ -38,10 +38,10 @@ jobs:
           AMAZON_FR_TAG: ${{ secrets.AMAZON_FR_TAG }}
           AMAZON_IT_TAG: ${{ secrets.AMAZON_IT_TAG }}
           AMAZON_UK_TAG: ${{ secrets.AMAZON_UK_TAG }}
-          MAX_DEALS: '5'
-          MIN_DISCOUNT: '30'
-          CATEGORIES: 'electronics,home,gaming'
-          PROVIDERS: 'amazon_es'
+          MAX_DEALS: '20'
+          MIN_DISCOUNT: '20'
+          CATEGORIES: 'electronics,home,gaming,beauty,fashion,toys,kitchen,sports'
+          PROVIDERS: 'chollometro,amazon_es,pccomponentes'
           LANGUAGES: 'es'
         run: npx tsx src/index.ts
 
