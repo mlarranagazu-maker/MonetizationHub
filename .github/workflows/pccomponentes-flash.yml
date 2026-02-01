@@ -1,0 +1,52 @@
+name: 🖥️ PcComponentes Flash
+
+on:
+  schedule:
+    # Lunes, Miércoles y Viernes a las 10:00 y 18:00 España
+    - cron: '0 9,17 * * 1,3,5'
+  workflow_dispatch:
+    inputs:
+      category:
+        description: 'Categoría específica'
+        required: false
+        type: choice
+        options:
+          - ofertas
+          - portatiles
+          - componentes
+          - monitores
+          - gaming
+          - perifericos
+
+jobs:
+  pccomponentes-flash:
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: projects/01-ofertasflash-bot
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 📚 Install dependencies
+        run: npm install
+
+      - name: 🖥️ Run PcComponentes Campaign
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          PCCOMPONENTES_AFFILIATE_ID: ${{ secrets.PCCOMPONENTES_AFFILIATE_ID }}
+          PC_CATEGORY: ${{ github.event.inputs.category || 'ofertas' }}
+          MIN_DISCOUNT: '15'
+          MAX_PRODUCTS: '8'
+        run: npx tsx src/pccomponentes-campaign.ts
+
+      - name: ✅ Campaign completed
+        run: echo "🖥️ PcComponentes campaign sent successfully!"
