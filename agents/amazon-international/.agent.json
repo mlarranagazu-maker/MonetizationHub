@@ -1,0 +1,92 @@
+{
+  "name": "amazon-international",
+  "version": "1.0.0",
+  "description": "Agente para gestión multi-país de programas de afiliados Amazon en Europa",
+  "author": "MonetizationHub",
+  "skills": [
+    "amazon-associates-multi-region",
+    "localization",
+    "currency-conversion",
+    "geo-targeting",
+    "onelink",
+    "api-paapi5",
+    "compliance-multi-jurisdiccion"
+  ],
+  "markets": {
+    "amazon_es": {
+      "name": "Amazon España",
+      "domain": "amazon.es",
+      "affiliate_program": "https://afiliados.amazon.es",
+      "commission_range": "1-12%",
+      "cookie_duration": "24h",
+      "api": "PA-API 5.0",
+      "currency": "EUR",
+      "language": "es-ES",
+      "priority": 1
+    },
+    "amazon_de": {
+      "name": "Amazon Alemania",
+      "domain": "amazon.de",
+      "affiliate_program": "https://partnernet.amazon.de",
+      "commission_range": "1-12%",
+      "cookie_duration": "24h",
+      "api": "PA-API 5.0",
+      "currency": "EUR",
+      "language": "de-DE",
+      "notes": "Mercado más grande de Europa, alta competencia",
+      "priority": 2
+    },
+    "amazon_fr": {
+      "name": "Amazon Francia",
+      "domain": "amazon.fr",
+      "affiliate_program": "https://partenaires.amazon.fr",
+      "commission_range": "1-12%",
+      "cookie_duration": "24h",
+      "api": "PA-API 5.0",
+      "currency": "EUR",
+      "language": "fr-FR",
+      "priority": 3
+    },
+    "amazon_it": {
+      "name": "Amazon Italia",
+      "domain": "amazon.it",
+      "affiliate_program": "https://programma-affiliazione.amazon.it",
+      "commission_range": "1-10%",
+      "cookie_duration": "24h",
+      "currency": "EUR",
+      "language": "it-IT",
+      "priority": 4
+    },
+    "amazon_uk": {
+      "name": "Amazon Reino Unido",
+      "domain": "amazon.co.uk",
+      "affiliate_program": "https://affiliate-program.amazon.co.uk",
+      "commission_range": "1-10%",
+      "cookie_duration": "24h",
+      "currency": "GBP",
+      "language": "en-GB",
+      "notes": "Post-Brexit: requiere cuenta separada, diferentes normas",
+      "priority": 5
+    }
+  },
+  "onelink_strategy": {
+    "description": "Amazon OneLink unifica links para múltiples marketplaces",
+    "setup": [
+      "1. Crear cuenta en cada marketplace Amazon",
+      "2. Vincular cuentas en OneLink",
+      "3. Usar tag principal, OneLink redirige automáticamente"
+    ],
+    "benefits": [
+      "Un solo link para toda Europa",
+      "Redirección automática por geo-IP",
+      "Comisiones en cada país"
+    ]
+  },
+  "best_practices": [
+    "Usar OneLink para máxima conversión europea",
+    "Contenido en idioma local para mejor SEO",
+    "Considerar diferencias de precios entre países",
+    "Alemania tiene mejor stock en electrónica",
+    "Francia fuerte en moda y hogar"
+  ]
+}

@@ -1,0 +1,50 @@
+name: OfertasFlash Bot
+
+on:
+  # Ejecutar cada 4 horas
+  schedule:
+    - cron: '0 */4 * * *'
+  
+  # Permitir ejecución manual
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout código
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: projects/01-ofertasflash-bot/package-lock.json
+
+      - name: 📚 Instalar dependencias
+        working-directory: projects/01-ofertasflash-bot
+        run: npm ci
+
+      - name: 🚀 Ejecutar Bot
+        working-directory: projects/01-ofertasflash-bot
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          AMAZON_ES_TAG: ${{ secrets.AMAZON_ES_TAG }}
+          AMAZON_DE_TAG: ${{ secrets.AMAZON_DE_TAG }}
+          AMAZON_FR_TAG: ${{ secrets.AMAZON_FR_TAG }}
+          AMAZON_IT_TAG: ${{ secrets.AMAZON_IT_TAG }}
+          AMAZON_UK_TAG: ${{ secrets.AMAZON_UK_TAG }}
+          MAX_DEALS: '5'
+          MIN_DISCOUNT: '30'
+          CATEGORIES: 'electronics,home,gaming'
+          PROVIDERS: 'amazon_es'
+          LANGUAGES: 'es'
+        run: npx tsx src/index.ts
+
+      - name: 📊 Resumen
+        if: always()
+        run: echo "✅ Bot ejecutado a las $(date)"

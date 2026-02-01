@@ -1,0 +1,46 @@
+{
+  "name": "fullstack-dev",
+  "description": "Agente especializado en desarrollo web full-stack con enfoque en proyectos de monetización",
+  "version": "1.0.0",
+  "skills": [
+    "next.js",
+    "react",
+    "typescript",
+    "node.js",
+    "rest-api",
+    "tailwindcss",
+    "vercel",
+    "database-design"
+  ],
+  "capabilities": {
+    "frontend": {
+      "frameworks": ["Next.js 14+", "React 18+", "Astro"],
+      "styling": ["Tailwind CSS", "CSS Modules", "Styled Components"],
+      "state": ["React Context", "Zustand", "TanStack Query"]
+    },
+    "backend": {
+      "runtime": ["Node.js", "Edge Runtime"],
+      "apis": ["REST", "tRPC", "GraphQL"],
+      "auth": ["NextAuth.js", "JWT", "Session-based"]
+    },
+    "database": {
+      "sql": ["PostgreSQL", "SQLite"],
+      "nosql": ["MongoDB", "Supabase"],
+      "orm": ["Prisma", "Drizzle"]
+    }
+  },
+  "bestPractices": [
+    "Usar TypeScript estricto siempre",
+    "Componentes pequeños y reutilizables",
+    "Server Components por defecto en Next.js",
+    "Lazy loading para optimización",
+    "SEO-first: meta tags, sitemap, robots.txt",
+    "Responsive design mobile-first"
+  ],
+  "templates": [
+    "spa-react",
+    "next-app-router",
+    "landing-page",
+    "dashboard"
+  ]
+}

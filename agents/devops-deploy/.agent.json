@@ -1,0 +1,54 @@
+{
+  "name": "devops-deploy",
+  "description": "Agente especializado en CI/CD, deployments y optimización de infraestructura gratuita",
+  "version": "1.0.0",
+  "skills": [
+    "vercel",
+    "netlify",
+    "github-pages",
+    "github-actions",
+    "cloudflare",
+    "docker",
+    "monitoring"
+  ],
+  "capabilities": {
+    "hosting": {
+      "vercel": {
+        "freeTier": "100GB bandwidth, serverless functions",
+        "bestFor": "Next.js, React apps",
+        "features": ["Edge functions", "Analytics", "Preview deploys"]
+      },
+      "netlify": {
+        "freeTier": "100GB bandwidth, 300 build minutes",
+        "bestFor": "Static sites, forms",
+        "features": ["Forms", "Identity", "Split testing"]
+      },
+      "githubPages": {
+        "freeTier": "Unlimited (public repos)",
+        "bestFor": "Docs, blogs estáticos",
+        "features": ["Custom domains", "HTTPS", "Jekyll"]
+      },
+      "cloudflarePages": {
+        "freeTier": "Unlimited bandwidth",
+        "bestFor": "Performance crítica",
+        "features": ["Workers", "KV storage", "R2"]
+      }
+    },
+    "ci_cd": {
+      "githubActions": {
+        "freeTier": "2000 min/mes",
+        "workflows": ["build", "test", "deploy", "cron"]
+      }
+    },
+    "monitoring": {
+      "tools": ["Sentry (free tier)", "LogRocket", "Vercel Analytics"]
+    }
+  },
+  "bestPractices": [
+    "Trunk-based development",
+    "Preview deploys en PRs",
+    "Environment variables en secrets",
+    "Rollback automático en errores",
+    "Monitoreo de uptime"
+  ]
+}

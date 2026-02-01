@@ -1,0 +1,118 @@
+{
+  "name": "spanish-affiliates",
+  "version": "1.0.0",
+  "description": "Agente para programas de afiliación españoles alternativos a Amazon",
+  "author": "MonetizationHub",
+  "skills": [
+    "affiliate-networks-spain",
+    "product-feeds",
+    "deeplinks",
+    "conversion-tracking",
+    "cookie-compliance-gdpr"
+  ],
+  "providers": {
+    "el_corte_ingles": {
+      "name": "El Corte Inglés Afiliados",
+      "network": "Awin",
+      "awin_id": "15019",
+      "commission": "3-8%",
+      "cookie_days": 30,
+      "categories": ["moda", "electronica", "hogar", "gourmet", "deportes"],
+      "pros": ["Marca de confianza", "Cookie 30 días", "Amplio catálogo"],
+      "cons": ["Precios más altos", "Menos ofertas flash"],
+      "api": "Awin Publisher API",
+      "priority": 1,
+      "signup": "https://www.awin.com/es/afiliados"
+    },
+    "decathlon": {
+      "name": "Decathlon Afiliados",
+      "network": "Awin",
+      "awin_id": "12189",
+      "commission": "5-7%",
+      "cookie_days": 30,
+      "categories": ["deportes", "outdoor", "fitness", "ciclismo", "running"],
+      "pros": ["Excelente conversión", "Precios competitivos", "Marca fuerte"],
+      "cons": ["Solo deportes", "Stock variable"],
+      "priority": 2,
+      "best_for": "Nichos deportivos específicos"
+    },
+    "pccomponentes": {
+      "name": "PcComponentes Afiliados",
+      "network": "Directo + Awin",
+      "commission": "1-4%",
+      "cookie_days": 15,
+      "categories": ["informatica", "gaming", "electronica", "smartphones"],
+      "pros": ["Líder en tech España", "Buenos precios", "Ofertas frecuentes"],
+      "cons": ["Comisión baja en tech", "Cookie corta"],
+      "priority": 3
+    },
+    "mediamarkt": {
+      "name": "MediaMarkt Afiliados",
+      "network": "Awin",
+      "commission": "1-3%",
+      "cookie_days": 14,
+      "categories": ["electronica", "electrodomesticos", "gaming"],
+      "pros": ["Ofertas agresivas", "Marca conocida"],
+      "cons": ["Comisión muy baja"],
+      "priority": 4
+    },
+    "aliexpress": {
+      "name": "AliExpress Afiliados",
+      "network": "AliExpress Portals",
+      "commission": "3-9%",
+      "cookie_days": 3,
+      "categories": ["todo"],
+      "pros": ["Catálogo infinito", "Buenas comisiones"],
+      "cons": ["Cookie muy corta", "Envíos largos", "Confianza menor"],
+      "signup": "https://portals.aliexpress.com",
+      "priority": 5
+    },
+    "zalando": {
+      "name": "Zalando Partner Program",
+      "network": "Awin",
+      "commission": "5-8%",
+      "cookie_days": 30,
+      "categories": ["moda", "calzado", "accesorios"],
+      "pros": ["Excelente en moda", "Devoluciones fáciles = más conversión"],
+      "priority": 6
+    },
+    "miravia": {
+      "name": "Miravia (Alibaba España)",
+      "network": "Directo",
+      "commission": "5-12%",
+      "categories": ["moda", "hogar", "belleza"],
+      "pros": ["Nuevo mercado", "Poca competencia", "Buenas comisiones"],
+      "cons": ["Marca nueva, menos confianza"],
+      "priority": 7
+    }
+  },
+  "networks": {
+    "awin": {
+      "name": "Awin",
+      "url": "https://www.awin.com/es",
+      "description": "Mayor red de afiliación en Europa",
+      "advertisers_spain": 500,
+      "features": ["API robusta", "Deeplinks", "Product feeds", "Tracking fiable"]
+    },
+    "tradedoubler": {
+      "name": "TradeDoubler",
+      "url": "https://www.tradedoubler.com/es-es/",
+      "description": "Red europea con buenos anunciantes"
+    },
+    "tradetracker": {
+      "name": "TradeTracker",
+      "url": "https://tradetracker.com/es/",
+      "description": "Alternativa con anunciantes únicos"
+    }
+  },
+  "strategy": {
+    "recommendation": "Combinar Amazon + 2-3 proveedores españoles",
+    "por_nicho": {
+      "tech_gaming": ["Amazon", "PcComponentes", "MediaMarkt"],
+      "deportes": ["Decathlon", "Amazon", "El Corte Inglés"],
+      "moda": ["Zalando", "El Corte Inglés", "Miravia"],
+      "hogar": ["Amazon", "El Corte Inglés", "IKEA (Awin)"],
+      "general": ["Amazon", "El Corte Inglés", "AliExpress"]
+    }
+  }
+}

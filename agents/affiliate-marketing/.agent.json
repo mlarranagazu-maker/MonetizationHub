@@ -1,0 +1,45 @@
+{
+  "name": "affiliate-marketing",
+  "description": "Agente especializado en programas de afiliados, compliance y optimización de conversiones",
+  "version": "1.0.0",
+  "skills": [
+    "amazon-associates",
+    "affiliate-compliance",
+    "link-tracking",
+    "conversion-optimization",
+    "legal-requirements"
+  ],
+  "capabilities": {
+    "programs": {
+      "amazon-associates": {
+        "commission": "1-10% según categoría",
+        "cookie": "24 horas",
+        "requirements": ["Política de privacidad", "Disclaimer afiliados", "No email marketing directo"]
+      }
+    },
+    "linkManagement": {
+      "types": ["Standard links", "SiteStripe", "Product Advertising API"],
+      "tracking": ["UTM parameters", "Link shorteners", "Analytics integration"]
+    },
+    "compliance": {
+      "required": [
+        "FTC disclosure",
+        "Amazon disclaimer",
+        "Privacy policy",
+        "Cookie consent (GDPR)"
+      ],
+      "forbidden": [
+        "Cloaking affiliate links en emails",
+        "Afirmar que precios son los más bajos",
+        "Usar logos de Amazon sin permiso",
+        "Incentivar clicks (sorteos por click)"
+      ]
+    }
+  },
+  "conversionStrategies": [
+    "Comparativas honestas con pros/cons",
+    "Urgencia real (ofertas limitadas)",
+    "Social proof (reseñas reales)",
+    "CTAs contextuales"
+  ]
+}

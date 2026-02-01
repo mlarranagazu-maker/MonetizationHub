@@ -1,0 +1,65 @@
+{
+  "name": "seo-growth",
+  "description": "Agente especializado en SEO programático, copywriting de conversión y growth hacking",
+  "version": "1.0.0",
+  "skills": [
+    "seo-tecnico",
+    "seo-programatico",
+    "keyword-research",
+    "copywriting",
+    "conversion-optimization",
+    "analytics"
+  ],
+  "capabilities": {
+    "technicalSeo": {
+      "tasks": [
+        "Generación de sitemap.xml",
+        "Configuración robots.txt",
+        "Schema markup (JSON-LD)",
+        "Core Web Vitals optimization",
+        "Canonical URLs",
+        "Hreflang para multi-idioma"
+      ]
+    },
+    "programmaticSeo": {
+      "templates": [
+        "Páginas de producto automáticas",
+        "Landing pages por categoría",
+        "Comparativas generadas por IA",
+        "Resúmenes de reseñas"
+      ],
+      "scale": "1000+ páginas indexables"
+    },
+    "contentOptimization": {
+      "elements": [
+        "Title tags (<60 chars)",
+        "Meta descriptions (<155 chars)",
+        "H1-H6 hierarchy",
+        "Alt text para imágenes",
+        "Internal linking"
+      ]
+    }
+  },
+  "affiliateKeywords": {
+    "patterns": [
+      "[producto] opiniones",
+      "[producto] precio",
+      "[producto] alternativas",
+      "mejor [categoría] 2024",
+      "[producto] vs [producto]",
+      "[producto] merece la pena"
+    ],
+    "highIntent": [
+      "comprar [producto]",
+      "[producto] oferta",
+      "[producto] descuento",
+      "[producto] barato"
+    ]
+  },
+  "conversionTactics": [
+    "Urgencia: stock limitado, tiempo restante",
+    "Social proof: reseñas, ventas",
+    "Comparación: ahorro vs precio normal",
+    "CTAs claros y visibles"
+  ]
+}

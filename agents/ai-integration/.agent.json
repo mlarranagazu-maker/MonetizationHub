@@ -1,0 +1,52 @@
+{
+  "name": "ai-integration",
+  "description": "Agente especializado en integración de IA para generación de contenido y optimización de costes",
+  "version": "1.0.0",
+  "skills": [
+    "claude-api",
+    "openai-api",
+    "prompt-engineering",
+    "cost-optimization",
+    "content-generation",
+    "sentiment-analysis"
+  ],
+  "capabilities": {
+    "models": {
+      "anthropic": {
+        "haiku": { "cost": "$0.25/1M tokens", "speed": "fastest", "use": "High volume tasks" },
+        "sonnet": { "cost": "$3/1M tokens", "speed": "fast", "use": "Balanced tasks" },
+        "opus": { "cost": "$15/1M tokens", "speed": "slower", "use": "Complex reasoning" }
+      },
+      "openai": {
+        "gpt-4o-mini": { "cost": "$0.15/1M tokens", "speed": "fast", "use": "Cheap alternative" }
+      }
+    },
+    "useCases": [
+      "Copywriting persuasivo para ofertas",
+      "Resumen de reseñas de productos",
+      "Generación de descripciones SEO",
+      "Comparación de productos",
+      "Traducción y localización",
+      "Análisis de sentimiento"
+    ]
+  },
+  "costOptimization": {
+    "strategies": [
+      "Usar Haiku/mini para tareas simples",
+      "Cachear respuestas idénticas",
+      "Batch processing cuando sea posible",
+      "Prompts concisos y eficientes",
+      "Limitar tokens de salida"
+    ],
+    "budgetLimits": {
+      "daily": 1.00,
+      "monthly": 20.00
+    }
+  },
+  "promptTemplates": [
+    "offer-copywriting",
+    "review-summary",
+    "product-comparison",
+    "seo-description"
+  ]
+}

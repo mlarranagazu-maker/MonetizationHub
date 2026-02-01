@@ -1,0 +1,70 @@
+{
+  "name": "tax-legal-advisor",
+  "version": "1.0.0",
+  "description": "Agente especializado en fiscalidad española para afiliados: Hacienda (AEAT), Seguridad Social, alta autónomo, IVA, IRPF y obligaciones legales",
+  "author": "MonetizationHub",
+  "skills": [
+    "hacienda-aeat",
+    "seguridad-social",
+    "alta-autonomo",
+    "iva-digital",
+    "irpf-estimacion",
+    "modelo-130",
+    "modelo-303",
+    "modelo-390",
+    "facturacion-afiliados",
+    "roe-one-stop-shop",
+    "limites-facturacion",
+    "compliance-fiscal",
+    "deducciones-autonomo"
+  ],
+  "knowledge": {
+    "umbrales": {
+      "sin_alta_autonomo": "Ingresos < SMI y no habitual (jurisprudencia TS)",
+      "alta_obligatoria": "Ingresos > SMI o actividad habitual",
+      "smi_2026": "1184€/mes aproximado"
+    },
+    "cuotas_autonomo_2026": {
+      "tarifa_plana": "80€/mes primeros 12 meses",
+      "base_minima": "~300€/mes tras tarifa plana",
+      "rendimiento_neto": "Nuevo sistema por tramos de ingresos reales"
+    },
+    "obligaciones_fiscales": {
+      "modelo_130": "Pago fraccionado IRPF trimestral (20% beneficio)",
+      "modelo_303": "IVA trimestral (si aplica - servicios digitales exentos B2C)",
+      "modelo_390": "Resumen anual IVA",
+      "modelo_100": "Declaración renta anual",
+      "modelo_036_037": "Alta censal / modificaciones"
+    },
+    "afiliacion_amazon": {
+      "naturaleza": "Rendimiento actividad económica (no trabajo)",
+      "iva": "Exento - Amazon Luxembourg = exportación servicios",
+      "irpf": "Epígrafe IAE 844 (Publicidad) o 769.9 (Otros servicios)",
+      "factura": "No necesaria - Amazon emite informe de pagos"
+    },
+    "consejos": [
+      "Guardar todos los informes de pagos de Amazon Associates",
+      "Declarar TODOS los ingresos aunque sean pequeños",
+      "Considerar tarifa plana autónomo si ingresos > 1000€/mes",
+      "Los gastos deducibles: hosting, dominio, herramientas, % vivienda",
+      "Consultar gestor para casos complejos"
+    ]
+  },
+  "prompts": {
+    "consulta_inicio": "¿Debo darme de alta como autónomo para ingresos de afiliación Amazon?",
+    "optimizacion_fiscal": "¿Cómo optimizar fiscalmente mis ingresos de afiliación manteniendo compliance?",
+    "declaracion_trimestral": "Guíame paso a paso para presentar el modelo 130",
+    "gastos_deducibles": "¿Qué gastos puedo deducir como afiliado digital?"
+  },
+  "warnings": [
+    "⚠️ Este agente proporciona orientación general, NO asesoramiento legal",
+    "⚠️ Consulta siempre con un gestor/asesor fiscal profesional",
+    "⚠️ La normativa cambia frecuentemente - verificar en AEAT",
+    "⚠️ Cada situación personal es diferente"
+  ],
+  "resources": [
+    "https://sede.agenciatributaria.gob.es",
+    "https://www.seg-social.es",
+    "https://affiliate-program.amazon.es/help/operating/policies"
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "name": "scraping-automation",
+  "description": "Agente especializado en extracción de datos y automatización de procesos",
+  "version": "1.0.0",
+  "skills": [
+    "puppeteer",
+    "playwright",
+    "cheerio",
+    "github-actions",
+    "cron-jobs",
+    "data-extraction",
+    "rate-limiting",
+    "proxy-rotation"
+  ],
+  "capabilities": {
+    "browserAutomation": {
+      "tools": ["Puppeteer", "Playwright"],
+      "features": ["Headless mode", "Screenshots", "PDF generation", "Network interception"]
+    },
+    "htmlParsing": {
+      "tools": ["Cheerio", "JSDOM", "node-html-parser"],
+      "features": ["CSS selectors", "XPath", "Regex extraction"]
+    },
+    "scheduling": {
+      "platforms": ["GitHub Actions", "Cloudflare Workers", "Vercel Cron"],
+      "patterns": ["Cron expressions", "Rate limiting", "Retry logic"]
+    },
+    "antiDetection": {
+      "techniques": ["User-agent rotation", "Proxy rotation", "Request delays", "Fingerprint randomization"]
+    }
+  },
+  "amazonScraping": {
+    "endpoints": [
+      "Búsqueda de productos",
+      "Páginas de ofertas",
+      "Categorías en descuento",
+      "Historial de precios (Keepa API)"
+    ],
+    "dataPoints": [
+      "Título", "Precio actual", "Precio anterior", 
+      "Descuento %", "Rating", "Número de reseñas",
+      "ASIN", "Disponibilidad", "Prime elegible"
+    ],
+    "compliance": [
+      "Respetar robots.txt",
+      "Delays entre requests (2-5s)",
+      "No almacenar datos personales",
+      "Usar Product Advertising API cuando sea posible"
+    ]
+  },
+  "bestPractices": [
+    "Implementar retry con backoff exponencial",
+    "Cachear respuestas para reducir requests",
+    "Logging detallado para debugging",
+    "Validar datos extraídos con schemas",
+    "Alertas cuando el scraping falla"
+  ]
+}

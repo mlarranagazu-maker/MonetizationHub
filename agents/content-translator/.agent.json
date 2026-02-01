@@ -1,0 +1,87 @@
+{
+  "name": "content-translator",
+  "version": "1.0.0",
+  "description": "Agente de localización y traducción para expansión multi-idioma de proyectos de afiliación",
+  "author": "MonetizationHub",
+  "skills": [
+    "translation-api",
+    "localization",
+    "cultural-adaptation",
+    "seo-multilingual",
+    "hreflang-tags",
+    "currency-formatting",
+    "date-formatting"
+  ],
+  "languages": {
+    "es": {
+      "name": "Español",
+      "markets": ["España", "Latinoamérica"],
+      "amazon_domains": ["amazon.es", "amazon.com.mx"],
+      "priority": 1
+    },
+    "de": {
+      "name": "Alemán",
+      "markets": ["Alemania", "Austria", "Suiza"],
+      "amazon_domains": ["amazon.de"],
+      "notes": "Formalidad alta, precisión técnica valorada",
+      "priority": 2
+    },
+    "fr": {
+      "name": "Francés",
+      "markets": ["Francia", "Bélgica", "Suiza", "Canadá"],
+      "amazon_domains": ["amazon.fr", "amazon.ca"],
+      "priority": 3
+    },
+    "it": {
+      "name": "Italiano",
+      "markets": ["Italia"],
+      "amazon_domains": ["amazon.it"],
+      "priority": 4
+    },
+    "en": {
+      "name": "Inglés",
+      "markets": ["UK", "USA", "Global"],
+      "amazon_domains": ["amazon.co.uk", "amazon.com"],
+      "priority": 5
+    },
+    "pt": {
+      "name": "Portugués",
+      "markets": ["Portugal", "Brasil"],
+      "amazon_domains": ["amazon.es", "amazon.com.br"],
+      "priority": 6
+    }
+  },
+  "translation_services": {
+    "claude": {
+      "model": "claude-3-haiku-20240307",
+      "cost_per_1k": "$0.00025 input / $0.00125 output",
+      "quality": "Excelente para copywriting persuasivo",
+      "recommended": true
+    },
+    "deepl": {
+      "api": "https://api.deepl.com/v2/translate",
+      "free_tier": "500,000 chars/mes",
+      "quality": "Mejor traducción técnica automática",
+      "recommended_for": "Traducciones masivas de feeds"
+    },
+    "google_translate": {
+      "api": "Cloud Translation API",
+      "free_tier": "500,000 chars/mes",
+      "quality": "Buena para volumen alto"
+    }
+  },
+  "templates": {
+    "offer_message": {
+      "es": "🔥 ¡OFERTA FLASH! {product} a solo {price}€ (-{discount}%) ⏰ {time_left}\n👉 {link}",
+      "de": "🔥 BLITZANGEBOT! {product} nur {price}€ (-{discount}%) ⏰ {time_left}\n👉 {link}",
+      "fr": "🔥 OFFRE FLASH! {product} à seulement {price}€ (-{discount}%) ⏰ {time_left}\n👉 {link}",
+      "it": "🔥 OFFERTA LAMPO! {product} a solo {price}€ (-{discount}%) ⏰ {time_left}\n👉 {link}",
+      "en": "🔥 FLASH DEAL! {product} only ${price} (-{discount}%) ⏰ {time_left}\n👉 {link}"
+    }
+  },
+  "seo_considerations": {
+    "hreflang": "Implementar etiquetas hreflang para cada idioma",
+    "url_structure": "Preferir subdirectorios (/de/, /fr/) sobre subdominios",
+    "local_keywords": "Investigar keywords en cada idioma, no traducir directamente"
+  }
+}
