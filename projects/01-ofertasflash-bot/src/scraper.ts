@@ -80,86 +80,61 @@ async function scrapeChollometro(config: BotConfig): Promise<Deal[]> {
   const deals: Deal[] = [];
   
   try {
-    const url = 'https://www.chollometro.com/hot?hide_expired=true';
-    const html = await fetchWithRetry(url);
-    const $ = cheerio.load(html);
-    
-    // Buscar ofertas en el feed
-    $('article[class*="thread"]').each((index, element) => {
+    const url = 'https://www.chollometro.com/rss/nuevos';
+    const xml = await fetchWithRetry(url);
+    const $ = cheerio.load(xml, { xmlMode: true });
+
+    $('item').each((index, element) => {
       try {
-        if (index >= 10) return;
-        
+        if (index >= 25) return;
+
         const $el = $(element);
-        
-        // Título
-        const titleEl = $el.find('a[class*="thread-link"]').first();
-        const title = titleEl.text().trim() || $el.find('strong').first().text().trim();
-        if (!title || title.length < 10) return;
-        
-        // Link del deal
-        const dealLink = titleEl.attr('href') || '';
-        
-        // Precio
-        const priceEl = $el.find('span[class*="thread-price"]');
-        const priceText = priceEl.text().trim();
-        const currentPrice = parsePrice(priceText);
-        
-        // Precio original
-        const originalPriceEl = $el.find('span[class*="mute--text"][class*="lineThrough"]');
-        let originalPrice = parsePrice(originalPriceEl.text());
-        if (!originalPrice && currentPrice) {
-          originalPrice = currentPrice * 1.35; // Estimar 35% descuento si no hay precio original
-        }
-        
-        // Calcular descuento
-        let discount = 0;
-        if (originalPrice && currentPrice && originalPrice > currentPrice) {
-          discount = Math.round((1 - currentPrice / originalPrice) * 100);
-        }
-        
-        // Si no hay precio, buscar descuento en texto
-        if (!discount) {
-          const discountMatch = $el.text().match(/(-?\d+)%/);
-          if (discountMatch) {
-            discount = Math.abs(parseInt(discountMatch[1]));
-          }
-        }
-        
+
+        const title = $el.find('title').first().text().trim();
+        const dealLink = $el.find('link').first().text().trim();
+        if (!title || !dealLink) return;
+
+        const merchantEl = $el.find('pepper\\:merchant').first();
+        const merchant = (merchantEl.attr('name') || '').trim() || 'Chollometro';
+        const merchantPriceText = (merchantEl.attr('price') || '').trim();
+        const descriptionText = $el.find('description').first().text();
+        const currentPrice = parsePrice(merchantPriceText) || parsePrice(descriptionText);
+        if (!currentPrice) return;
+
+        const discountMatch = `${title} ${descriptionText}`.match(/(-?\d{1,3})%/);
+        const parsedDiscount = discountMatch ? Math.abs(parseInt(discountMatch[1])) : 0;
+        const discount = parsedDiscount || config.minDiscount;
+
         if (discount < config.minDiscount) return;
-        
-        // Imagen
-        const imageUrl = $el.find('img[class*="thread-image"]').attr('src') || 
-                        $el.find('img').first().attr('src') || '';
-        
-        // Detectar tienda
-        const merchantEl = $el.find('a[class*="merchant"], span[class*="merchant"]');
-        const merchant = merchantEl.text().trim() || 'Chollometro';
-        
-        // Detectar proveedor del link
-        const provider = detectProviderFromUrl(dealLink) || detectProviderFromText(merchant);
-        const affiliateLink = generateSmartAffiliateLink(dealLink, provider);
-        
-        const deal: Deal = {
+
+        const originalPrice = currentPrice / (1 - discount / 100);
+
+        const imageUrl =
+          $el.find('media\\:thumbnail').first().attr('url') ||
+          $el.find('media\\:content').first().attr('url') ||
+          '';
+
+        const provider = detectProviderFromText(merchant);
+
+        deals.push({
           id: `chollometro-${Date.now()}-${index}`,
           title: title.substring(0, 200),
-          currentPrice: currentPrice || 0,
-          originalPrice: originalPrice || currentPrice * 1.3,
-          discount: discount || 30,
-          imageUrl: imageUrl.startsWith('//') ? `https:${imageUrl}` : imageUrl,
+          currentPrice,
+          originalPrice: Number.isFinite(originalPrice) ? originalPrice : currentPrice * 1.3,
+          discount,
+          imageUrl,
           productLink: dealLink,
-          affiliateLink,
+          affiliateLink: dealLink,
           provider,
           providerName: merchant,
           category: detectCategory(title),
           scrapedAt: new Date().toISOString(),
-        };
-        
-        deals.push(deal);
+        });
       } catch (err) {
         // Ignorar errores individuales
       }
     });
-    
+
     logger.info(`    ✓ ${deals.length} ofertas de Chollometro`);
   } catch (error) {
     logger.error(`    ✗ Error Chollometro: ${error instanceof Error ? error.message : error}`);
@@ -545,7 +520,7 @@ export async function scrapeMultiProvider(config: BotConfig): Promise<Deal[]> {
   await new Promise(r => setTimeout(r, 2000));
   
   // 2. PcComponentes - Tech
-  if (config.providers.includes('pccomponentes') || config.categories.includes('electronics')) {
+  if (config.providers.includes('pccomponentes')) {
     try {
       const pcDeals = await scrapePcComponentes(config);
       allDeals.push(...pcDeals);
