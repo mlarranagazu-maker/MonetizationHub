@@ -17,6 +17,44 @@ const CONFIG = {
   retryDelay: 5000,
 };
 
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function formatMoneyEur(value: number): string {
+  if (!Number.isFinite(value)) return '-';
+  return `${value.toFixed(2)}€`;
+}
+
+export function buildDailyDigestMessage(deals: Deal[]): string {
+  const now = new Date();
+  const dateLabel = now.toLocaleDateString('es-ES', { weekday: 'long', day: '2-digit', month: '2-digit' });
+
+  const header = `🗞️ <b>Top chollos del día</b> · ${escapeHtml(dateLabel)} · <b>08:45</b>`;
+  const intro = 'Selección curada: sin repetidos, con ahorro real.';
+
+  const lines: string[] = [header, intro, ''];
+
+  deals.forEach((deal, idx) => {
+    const savings = Math.max(0, deal.originalPrice - deal.currentPrice);
+    const title = escapeHtml(deal.title.substring(0, 90));
+
+    lines.push(
+      `<b>${idx + 1})</b> ${title}`,
+      `💰 <b>${formatMoneyEur(deal.currentPrice)}</b> (antes <s>${formatMoneyEur(deal.originalPrice)}</s>) · 📉 <b>-${deal.discount}%</b> · Ahorras <b>${formatMoneyEur(savings)}</b>`,
+      `🛒 ${escapeHtml(deal.providerName)} · 🔗 ${deal.affiliateLink}`,
+      ''
+    );
+  });
+
+  lines.push('📌 <b>Síguenos</b> y reenvía este digest para apoyar el canal.');
+
+  return lines.join('\n');
+}
+
 /**
  * Inicializa el bot de Telegram
  */
@@ -103,16 +141,6 @@ ${deal.discount >= 40 ? '🔔 Activa notificaciones = Más chollos' : '📢 Comp
 ━━━━━━━━━━━━━━━━━━━
 📲 <b>@OfertasFlashES</b>
 #Chollo #${deal.category.charAt(0).toUpperCase() + deal.category.slice(1)} #Ahorro${deal.discount}`;
-}
-
-/**
- * Escapa caracteres HTML
- */
-function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
 }
 
 /**
@@ -209,6 +237,34 @@ export async function sendBatchToTelegram(deals: Deal[]): Promise<TelegramResult
   }
   
   return results;
+}
+
+export async function sendDigestToTelegram(deals: Deal[]): Promise<TelegramResult> {
+  if (!bot) {
+    return { success: false, dealId: 'digest', error: 'Bot no inicializado' };
+  }
+
+  if (deals.length === 0) {
+    return { success: false, dealId: 'digest', error: 'Sin ofertas para digest' };
+  }
+
+  const channelId = getChannelId();
+  const message = buildDailyDigestMessage(deals);
+
+  try {
+    await bot.telegram.sendMessage(channelId, message, {
+      parse_mode: CONFIG.parseMode,
+      link_preview_options: {
+        is_disabled: true,
+      }
+    });
+
+    return { success: true, dealId: 'digest', messageType: 'text' };
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : 'Error desconocido';
+    logger.error(`    ✗ Error Telegram digest: ${errorMsg}`);
+    return { success: false, dealId: 'digest', error: errorMsg };
+  }
 }
 
 /**

@@ -4,21 +4,24 @@
 import { config } from 'dotenv';
 import { scrapeMultiProvider } from './scraper.js';
 import { generateCopywriting } from './ai.js';
-import { sendBatchToTelegram, initBot } from './telegram.js';
+import { sendBatchToTelegram, initBot, sendDigestToTelegram, buildDailyDigestMessage } from './telegram.js';
 import { Deal, BotConfig, RunStats } from './types.js';
 import { logger } from './utils/logger.js';
 import { generateDefaultMessage } from './utils/messages.js';
 import { isTwitterConfigured, postDealToTwitter, formatTweet } from './twitter.js';
+import { loadDealHistoryFromEnv } from './utils/deal-history.js';
+import { selectDealsForPublishing } from './utils/deal-selection.js';
 
 // Cargar variables de entorno
 config();
 
 // Validar configuración requerida
 function validateConfig(): void {
+  const digestMode = (process.env.DIGEST_MODE || '').toLowerCase() === 'true';
   const required = [
     'TELEGRAM_BOT_TOKEN',
     'TELEGRAM_CHANNEL_ID',
-    'ANTHROPIC_API_KEY',
+    ...(digestMode ? [] : ['ANTHROPIC_API_KEY']),
   ];
   
   const missing = required.filter(key => !process.env[key]);
@@ -68,37 +71,58 @@ async function main(): Promise<RunStats> {
     }
     
     logger.success(`✅ Encontradas ${deals.length} ofertas`);
+
+    // 1.1. SELECCIÓN INTELIGENTE (no repetición + scoring + diversidad)
+    const history = await loadDealHistoryFromEnv();
+    const { selected: selectedDeals, report } = selectDealsForPublishing(deals, botConfig, history);
+    logger.info(
+      `\n🎯 Selección: input=${report.inputCount}, unique=${report.uniqueCount}, ` +
+      `history_filtered=${report.filteredByHistory}, rules_filtered=${report.filteredByRules}, ` +
+      `selected=${report.selectedCount} (history_size=${history.size})`
+    );
+
+    if (selectedDeals.length === 0) {
+      logger.warn('⚠️ No hay ofertas nuevas/relevantes para publicar (según historial/reglas)');
+      stats.endTime = new Date();
+      return stats;
+    }
     
     // Contar por proveedor
-    deals.forEach(d => {
+    selectedDeals.forEach(d => {
       stats.providers[d.provider] = (stats.providers[d.provider] || 0) + 1;
     });
 
     // 2. COPYWRITING CON IA
-    logger.info('\n✍️ Fase 2: Generando copywriting con Claude Haiku...');
+    const digestMode = (process.env.DIGEST_MODE || '').toLowerCase() === 'true';
     const enhancedDeals: Deal[] = [];
-    
-    for (const deal of deals.slice(0, botConfig.maxDeals)) {
-      try {
-        const { message, tokens } = await generateCopywriting(deal);
-        stats.aiTokensUsed.input += tokens.input;
-        stats.aiTokensUsed.output += tokens.output;
-        
-        enhancedDeals.push({
-          ...deal,
-          telegramMessage: message,
-        });
-        logger.info(`  ✓ Copy generado: ${deal.title.substring(0, 40)}...`);
-      } catch (error) {
-        const errorMsg = error instanceof Error ? error.message : 'Error desconocido';
-        logger.error(`  ✗ Error copywriting: ${errorMsg}`);
-        stats.errors.push(`AI Error: ${errorMsg}`);
-        
-        // Usar mensaje por defecto si falla IA
-        enhancedDeals.push({
-          ...deal,
-          telegramMessage: generateDefaultMessage(deal),
-        });
+
+    if (digestMode) {
+      logger.info('\n🗞️ Modo DIGEST activo - No se genera copy por oferta');
+      enhancedDeals.push(...selectedDeals.slice(0, botConfig.maxDeals));
+    } else {
+      logger.info('\n✍️ Fase 2: Generando copywriting con Claude Haiku...');
+      for (const deal of selectedDeals.slice(0, botConfig.maxDeals)) {
+        try {
+          const { message, tokens } = await generateCopywriting(deal);
+          stats.aiTokensUsed.input += tokens.input;
+          stats.aiTokensUsed.output += tokens.output;
+
+          enhancedDeals.push({
+            ...deal,
+            telegramMessage: message,
+          });
+          logger.info(`  ✓ Copy generado: ${deal.title.substring(0, 40)}...`);
+        } catch (error) {
+          const errorMsg = error instanceof Error ? error.message : 'Error desconocido';
+          logger.error(`  ✗ Error copywriting: ${errorMsg}`);
+          stats.errors.push(`AI Error: ${errorMsg}`);
+
+          // Usar mensaje por defecto si falla IA
+          enhancedDeals.push({
+            ...deal,
+            telegramMessage: generateDefaultMessage(deal),
+          });
+        }
       }
     }
 
@@ -113,18 +137,44 @@ async function main(): Promise<RunStats> {
     
     if (process.env.DRY_RUN === 'true') {
       logger.warn('🔸 DRY_RUN activo - No se envían mensajes reales');
-      enhancedDeals.forEach(d => {
-        logger.info(`  [DRY] ${d.title.substring(0, 50)}`);
-        logger.debug(d.telegramMessage || '');
-      });
-      stats.dealsSent = enhancedDeals.length;
+      if (digestMode) {
+        const digest = buildDailyDigestMessage(enhancedDeals);
+        logger.info(`  [DRY] Digest único con ${enhancedDeals.length} ofertas`);
+        logger.debug(digest);
+        stats.dealsSent = enhancedDeals.length;
+      } else {
+        enhancedDeals.forEach(d => {
+          logger.info(`  [DRY] ${d.title.substring(0, 50)}`);
+          logger.debug(d.telegramMessage || '');
+        });
+        stats.dealsSent = enhancedDeals.length;
+      }
     } else {
-      const results = await sendBatchToTelegram(enhancedDeals);
-      stats.dealsSent = results.filter(r => r.success).length;
-      
-      results.filter(r => !r.success).forEach(r => {
-        stats.errors.push(`Telegram Error: ${r.error}`);
-      });
+      if (digestMode) {
+        const digestResult = await sendDigestToTelegram(enhancedDeals);
+        if (!digestResult.success) {
+          stats.errors.push(`Telegram Error: ${digestResult.error}`);
+          stats.dealsSent = 0;
+        } else {
+          stats.dealsSent = enhancedDeals.length;
+          enhancedDeals.forEach(d => history.markSent(d));
+          await history.save();
+        }
+      } else {
+        const results = await sendBatchToTelegram(enhancedDeals);
+        stats.dealsSent = results.filter(r => r.success).length;
+
+        results.filter(r => !r.success).forEach(r => {
+          stats.errors.push(`Telegram Error: ${r.error}`);
+        });
+
+        // Persistir historial solo para los que se enviaron correctamente
+        const sentIds = new Set(results.filter(r => r.success).map(r => r.dealId));
+        enhancedDeals
+          .filter(d => sentIds.has(d.id))
+          .forEach(d => history.markSent(d));
+        await history.save();
+      }
     }
 
     // 4. CROSS-POST A TWITTER (si está configurado)

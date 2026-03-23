@@ -10,6 +10,9 @@ node_modules/
 logs/
 *.log
 
+# Runtime data
+data/
+
 # Build
 dist/
 build/

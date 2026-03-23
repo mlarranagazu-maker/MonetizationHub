@@ -156,7 +156,8 @@ export async function translateMessage(
   };
 
   try {
-    const response = await anthropic.messages.create({
+    const client = getAnthropicClient();
+    const response = await client.messages.create({
       model: 'claude-3-haiku-20240307',
       max_tokens: 250,
       temperature: 0.3, // Más bajo para traducción precisa

@@ -125,7 +125,7 @@ async function scrapeChollometro(config: BotConfig): Promise<Deal[]> {
           }
         }
         
-        if (discount < config.minDiscount && currentPrice === 0) return;
+        if (discount < config.minDiscount) return;
         
         // Imagen
         const imageUrl = $el.find('img[class*="thread-image"]').attr('src') || 
@@ -556,10 +556,16 @@ export async function scrapeMultiProvider(config: BotConfig): Promise<Deal[]> {
   
   // 3. Si no hay ofertas reales, usar ejemplos para que el bot funcione
   if (allDeals.length === 0) {
+    const allowSampleDeals = (process.env.ALLOW_SAMPLE_DEALS || '').toLowerCase() === 'true';
     logger.warn('\n  ⚠️ No se encontraron ofertas en tiempo real');
-    logger.info('  📦 Usando ofertas de ejemplo para demostración...\n');
-    const sampleDeals = generateSampleDeals(config);
-    allDeals.push(...sampleDeals);
+    if (allowSampleDeals) {
+      logger.info('  📦 Usando ofertas de ejemplo para demostración...\n');
+      const sampleDeals = generateSampleDeals(config);
+      allDeals.push(...sampleDeals);
+    } else {
+      logger.warn('  ⏭️ Sample deals desactivadas (set ALLOW_SAMPLE_DEALS=true para modo demo)');
+      return [];
+    }
   }
   
   // Eliminar duplicados
@@ -568,8 +574,12 @@ export async function scrapeMultiProvider(config: BotConfig): Promise<Deal[]> {
   // Ordenar por descuento (mejores primero)
   uniqueDeals.sort((a, b) => b.discount - a.discount);
   
-  // Limitar al máximo configurado
-  return uniqueDeals.slice(0, config.maxDeals);
+  // Devolver más candidatos para que el selector aplique scoring/diversidad
+  const maxScraped = Math.max(
+    config.maxDeals,
+    parseInt(process.env.SCRAPER_MAX_DEALS || '50')
+  );
+  return uniqueDeals.slice(0, maxScraped);
 }
 
 // ============================================
